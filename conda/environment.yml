@@ -1,0 +1,18 @@
+name: cv_assn2
+channels:
+  - conda-forge
+  - pytorch
+dependencies:
+  - python=3.10
+  - bandit
+  - flake8
+  - jupyter
+  - matplotlib
+  - mypy
+  - numpy
+  - opencv
+  - pytest
+  - pyyaml
+  - pytorch
+  - torchvision
+  - Pillow
