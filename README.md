@@ -1,50 +1,50 @@
 # CS 4476/6476 Project 2: SIFT Local Feature Matching
 
+# 🧠 SIFT-Based Local Feature Matching & Panorama Stitching
+
+## 📌 Project Overview
+This project implements a **SIFT-inspired feature matching pipeline** for matching images taken from multiple viewpoints of the same scene. The pipeline includes:
+- **Harris corner detection**
+- **Local patch and SIFT-like descriptors**
+- **Ratio-test-based feature matching**
+- **Panorama stitching using estimated homographies**
+
+
+## 🚀 Features Implemented
+
+### 🧭 1. Harris Corner Detector
+- Uses image gradients (Sobel filter) and second-moment matrix
+- Computes Harris response score:  
+  $$ R = \text{det}(A) - \alpha \cdot (\text{trace}(A))^2 $$
+- Applies max-pooling for **non-maximum suppression (NMS)**
+
+### 🔲 2. Normalized Patch Descriptor
+- Extracts fixed-size grayscale patches centered at interest points
+- Normalizes each patch to unit norm for simple but effective matching
+- Expected matching accuracy on Notre Dame: ~40–50%
+
+### 📌 3. Ratio Test Feature Matching
+- Implements Lowe's **Nearest Neighbor Distance Ratio (NNDR)** test:
+  $$ \text{Ratio} = \frac{||f_1 - f_{match1}||}{||f_1 - f_{match2}||} $$
+- Filters robust matches by thresholding this ratio
+- Returns top confident matches and visualizes them
+
+### 🌀 4. SIFT-Like Descriptor
+- Computes 4×4 grid of 8-bin gradient histograms over 16×16 patch
+- Applies Gaussian weighting and orientation binning
+- Performs **Square Root SIFT normalization** for robustness
+- Achieves >80% accuracy on Notre Dame image pair
+
+### 🌄 5. Panorama Stitching (Hand-Graded)
+- Detects features and estimates **homography** using `cv2.findHomography()`
+- Warps and blends images using `cv2.warpPerspective()`
+- Stitching tested on 3 given panoramas + 1 custom pair
+
+
+
 ## Getting started
 
 - See [Project 0](https://github.gatech.edu/cs4476/project-0) for detailed environment setup.
 - Ensure that you are using the environment `cv_proj2`, which you can install using the install script `conda/install.sh`.
 
-## Logistics
 
-- Submit via [Gradescope](https://gradescope.com).
-- Part 5 of this project is **required** for 6476, and **optional** for 4476.
-- Additional information can be found in `docs/project-2.pdf`.
-
-## 4476 Rubric
-
-- +20 pts: `part1_harris_corner.py`
-- +10 pts: `part2_patch_descriptor.py`
-- +10 pts: `part3_feature_matching.py`
-- +40 pts: `part4_sift_descriptor.py`
-- +20 pts: Report
-- -5*n pts: Lose 5 points for every time you do not follow the instructions for the hand-in format
-
-
-## 6476 Rubric
-
-- +15 pts: `part1_harris_corner.py`
-- +10 pts: `part2_patch_descriptor.py`
-- +10 pts: `part3_feature_matching.py`
-- +40 pts: `part4_sift_descriptor.py`
-- +25 pts: Report
-- -5*n pts: Lose 5 points for every time you do not follow the instructions for the hand-in format
-
-## Submission format
-
-This is very important as you will lose 5 points for every time you do not follow the instructions.
-
-1. Generate the zip folder (`<your_gt_username>.zip`) for the code portion of your submission once you've finished the project using `python zip_submission.py --gt_username <your_gt_username>`. It should contain:
-    - `src/`: directory containing all your code for this assignment
-    - `setup.cfg`: setup file for environment, do not need to change this file
-    - `additional_data/`: (required for 6476, optional for 4476) the images you took for Part 5, and/or if you use any data other than the images we provide, please include them here
-    - `README.txt`: (optional) if you implement any new functions other than the ones we define in the skeleton code (e.g., any extra credit implementations), please describe what you did and how we can run the code. We will not award any extra credit if we can't run your code and verify the results.
-2. `<your_gt_username>_proj2.pdf` - your report
-
-
-## Important Notes
-
-- Please follow the environment setup in [Project 0](https://github.gatech.edu/cs4476/project-0).
-- Do **not** use absolute paths in your code or your code will break.
-- Use relative paths like the starter code already does.
-- Failure to follow any of these instructions will lead to point deductions. Create the zip file by clicking and hand it in with your report PDF through Gradescope (please remember to mark which parts of your report correspond to each part of the rubric).
